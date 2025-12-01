@@ -15,6 +15,6 @@ jobs:
       - name: Run ZAP Baseline Scan on Juice Shop
         uses: zaproxy/action-baseline@v0.13.0
         with:
-          target: 'http://YOUR_SERVER_IP'
+          target: "http://${{ github.event.inputs.server_ip }}"
           cmd_options: '-m 2 --fail-on=high'  # minimal spider, fail only on high severity
           # rules_file_name: 'rules.tsv'       # optional
