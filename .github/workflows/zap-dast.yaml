@@ -16,5 +16,6 @@ jobs:
         uses: zaproxy/action-baseline@v0.13.0
         with:
           target: "http://${{ github.event.inputs.server_ip }}"
-          cmd_options: '-m 2 --fail-on=high'  # minimal spider, fail only on high severity
+          cmd_options: '-m 2 --quickout'  # minimal spider, print summary
+          fail_on: 'high' #fail only on high severity
           # rules_file_name: 'rules.tsv'       # optional
