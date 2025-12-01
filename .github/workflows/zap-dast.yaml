@@ -25,11 +25,32 @@ jobs:
           artifact_name: dastreport  
           # rules_file_name: 'rules.tsv'       # optional
 
-      - name: Upload ZAP Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: zap-report-artifact
-          path: |
-            report_html.html
-            report_json.json
-            report_md.md
+      - name: Print Alert Summary
+        run: |
+          high=$(jq '[.site[].alerts[] | select(.riskcode=="3")] | length' report_json.json)
+          medium=$(jq '[.site[].alerts[] | select(.riskcode=="2")] | length' report_json.json)
+          low=$(jq '[.site[].alerts[] | select(.riskcode=="1")] | length' report_json.json)
+          info=$(jq '[.site[].alerts[] | select(.riskcode=="0")] | length' report_json.json)
+          echo "High: $high"
+          echo "Medium: $medium"
+          echo "Low: $low"
+          echo "Informational: $info"
+
+      - name: Fail Pipeline if High Risk
+        run: |
+          high=$(jq '[.site[].alerts[] | select(.riskcode=="3")] | length' report_json.json)
+          if [ "$high" -gt 0 ]; then
+            echo "❌ High severity alerts found — blocking pipeline"
+            exit 1
+          fi
+          echo "✅ No high severity issues"
+
+# Reference for file names
+      # - name: Upload ZAP Report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: zap-report-artifact
+      #     path: |
+      #       report_html.html
+      #       report_json.json
+      #       report_md.md
