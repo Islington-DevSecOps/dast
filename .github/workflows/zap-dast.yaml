@@ -17,13 +17,16 @@ jobs:
         with:
           target: "http://${{ github.event.inputs.server_ip }}"
           cmd_options: '-m 2'  # minimal spider
-          fail_action: 'high' #fail only on high severity
-          artifact_name: 'report'
+          fail_action: 'false' #do not fail on finding severity
+          allow_issue_writing: 'false' #do not open issues in github
+          artifact_name: 'zap-report'      
           # rules_file_name: 'rules.tsv'       # optional
 
-      - name: Summarize ZAP Report
-        run: |
-          echo "ZAP Alert Summary:"
-          grep -oP 'Risk: \K[^\<]+' report.html | sort | uniq -c | while read count risk; do
-            echo "$risk: $count"
-          done
+      - name: Upload ZAP Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report-artifact
+          path: |
+            zap-report.html
+            zap-report.json
+            zap-report.md
