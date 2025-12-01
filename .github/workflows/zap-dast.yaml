@@ -19,7 +19,7 @@ jobs:
           cmd_options: '-m 2'  # minimal spider
           fail_action: 'false' #do not fail on finding severity
           allow_issue_writing: 'false' #do not open issues in github
-          artifact_name: 'zap-report'      
+          artifact_name: 'zap-dast-report'      
           # rules_file_name: 'rules.tsv'       # optional
 
       - name: Upload ZAP Report
