@@ -27,6 +27,6 @@ jobs:
         with:
           name: zap-report-artifact
           path: |
-            zap-report.html
-            zap-report.json
-            zap-report.md
+            report_html.html
+            report_json.json
+            report_md.md
