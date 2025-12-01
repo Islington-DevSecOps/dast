@@ -12,10 +12,18 @@ jobs:
   zap-baseline:
     runs-on: ubuntu-latest
     steps:
-      - name: Run ZAP Baseline Scan on Juice Shop
+      - name: Run ZAP Baseline Scan on Application
         uses: zaproxy/action-baseline@v0.13.0
         with:
           target: "http://${{ github.event.inputs.server_ip }}"
-          cmd_options: '-m 2 --quickout'  # minimal spider, print summary
-          fail_on: 'high' #fail only on high severity
+          cmd_options: '-m 2'  # minimal spider
+          fail_action: 'high' #fail only on high severity
+          artifact_name: 'report'
           # rules_file_name: 'rules.tsv'       # optional
+
+      - name: Summarize ZAP Report
+        run: |
+          echo "ZAP Alert Summary:"
+          grep -oP 'Risk: \K[^\<]+' report.html | sort | uniq -c | while read count risk; do
+            echo "$risk: $count"
+          done
