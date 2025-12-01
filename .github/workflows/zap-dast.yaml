@@ -16,13 +16,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run ZAP Baseline Scan on Application
-        uses: zaproxy/action-baseline@v0.13.0
+        uses: zaproxy/action-baseline@v0.15.0
         with:
           target: "http://${{ github.event.inputs.server_ip }}"
           cmd_options: '-m 2'  # minimal spider
           fail_action: 'false' #do not fail on finding severity
           allow_issue_writing: 'false' #do not open issues in github
-          artifact_name: 'zap-dast-report'      
+          artifact_name: dastreport  
           # rules_file_name: 'rules.tsv'       # optional
 
       - name: Upload ZAP Report
