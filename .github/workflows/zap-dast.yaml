@@ -12,6 +12,9 @@ jobs:
   zap-baseline:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository for uploading artifacts
+        uses: actions/checkout@v4
+
       - name: Run ZAP Baseline Scan on Application
         uses: zaproxy/action-baseline@v0.13.0
         with:
