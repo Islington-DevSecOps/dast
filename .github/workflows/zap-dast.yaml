@@ -36,14 +36,14 @@ jobs:
           echo "Low: $low"
           echo "Informational: $info"
 
-      - name: Fail Pipeline if High Risk
+      - name: Fail Pipeline if Medium Risk
         run: |
-          high=$(jq '[.site[].alerts[] | select(.riskcode=="3")] | length' report_json.json)
-          if [ "$high" -gt 0 ]; then
-            echo "❌ High severity alerts found — blocking pipeline"
+          medium=$(jq '[.site[].alerts[] | select(.riskcode=="2")] | length' report_json.json)
+          if [ "$medium" -gt 0 ]; then
+            echo "❌ Medium severity alerts found — blocking pipeline"
             exit 1
           fi
-          echo "✅ No high severity issues"
+          echo "✅ No Medium severity issues"
 
 # Reference for file names
       # - name: Upload ZAP Report
